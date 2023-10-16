@@ -19,6 +19,7 @@
 
 <script>
 export default {
+    emits: ['create'],
     data() {
         return {
             post: {
