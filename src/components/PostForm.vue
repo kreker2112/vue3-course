@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { v4 as uuidv4 } from 'uuid'
 export default {
     emits: ['create'],
     data() {
@@ -28,9 +29,10 @@ export default {
             },
         }
     },
+
     methods: {
         createPost() {
-            this.post.id = Date.now()
+            this.id = uuidv4()
             this.$emit('create', this.post)
             this.post = {
                 title: '',
@@ -71,5 +73,26 @@ export default {
     color: #fff;
     cursor: pointer;
     border-radius: 10px 5px 10px 5px;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        background-color: #ff6384;
+    }
+    50% {
+        transform: scale(1.5);
+        background-color: #42a5f5;
+    }
+    100% {
+        transform: scale(1);
+        background-color: #ff6384;
+    }
+}
+.button__input:hover {
+    background-color: #6ac054;
+    box-shadow: 2px 2px 2px #18aa66;
+    transform: scale(1.01);
+    transition: all 0.5s;
 }
 </style>
