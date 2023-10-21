@@ -1,13 +1,13 @@
+<!-- eslint-disable vue/component-definition-name-casing -->
 <template>
-    <div class="btn_container">
-        <button class="button">
-            <slot></slot>
-        </button>
-    </div>
+    <button class="button">
+        <slot></slot>
+    </button>
 </template>
 
 <script>
-export default { name: 'MyButton' }
+// eslint-disable-next-line vue/component-definition-name-casing
+export default { name: 'big-button' }
 </script>
 
 <style scoped>

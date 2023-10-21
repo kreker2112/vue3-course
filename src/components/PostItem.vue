@@ -8,9 +8,8 @@
                 <strong>Описание:</strong> {{ post.body }}
             </div>
         </div>
-        <div class="post__btns">
-            <button class="post__btn--redact">Редактировать</button>
-            <button class="post__btn--delete">Удалить</button>
+        <div class="post__btns--container">
+            <small-button @click="$emit('remove', post)">Удалить</small-button>
         </div>
     </div>
 </template>
@@ -23,6 +22,7 @@ export default {
             required: true,
         },
     },
+    emits: ['remove'],
 }
 </script>
 
@@ -46,32 +46,12 @@ export default {
     font-size: larger;
     font-family: Arial, Helvetica, sans-serif;
 }
-.post__btns {
+.post__btns--container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 15px;
     padding: 5px;
     border-radius: 10px;
-}
-
-.post__btn--redact {
-    background-color: #189ca5;
-    color: #fff;
-    border: none;
-    box-shadow: 2px 2px 2px red;
-    padding: 5px 10px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.post__btn--delete {
-    background-color: #a51818;
-    color: #fff;
-    border: none;
-    box-shadow: 2px 2px 2px #6ac054;
-    padding: 5px 10px;
-    border-radius: 10px;
-    cursor: pointer;
 }
 </style>

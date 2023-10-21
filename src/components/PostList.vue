@@ -1,8 +1,14 @@
 <template>
-    <div class="container__post">
-        <h3>Список пользователей:</h3>
-        <post-item v-for="post in posts" :key="post.id" :post="post" />
+    <div v-if="posts.length > 0" class="container__post">
+        <h3>Список постов:</h3>
+        <post-item
+            v-for="post in posts"
+            :key="post.id"
+            :post="post"
+            @remove="$emit('remove', post)"
+        />
     </div>
+    <h2 v-else class="no_posts">Постов нет</h2>
 </template>
 
 <script>
@@ -15,6 +21,7 @@ export default {
             required: true,
         },
     },
+    emits: ['remove'],
 }
 </script>
 
@@ -27,6 +34,15 @@ export default {
 .container__post h3 {
     margin: 15px 0 0 0;
     text-align: center;
+    font-size: 2rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.no_posts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 2rem;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
         'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
