@@ -41,6 +41,7 @@ export default {
 
 .no_posts {
     display: flex;
+    margin-top: 15px;
     justify-content: center;
     align-items: center;
     font-size: 2rem;

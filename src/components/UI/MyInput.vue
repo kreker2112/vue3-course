@@ -17,7 +17,6 @@ export default {
 
     methods: {
         updateInput(event) {
-            // eslint-disable-next-line vue/require-explicit-emits
             this.$emit('update:modelValue', event.target.value)
         },
     },

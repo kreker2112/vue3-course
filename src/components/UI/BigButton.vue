@@ -6,7 +6,6 @@
 </template>
 
 <script>
-// eslint-disable-next-line vue/component-definition-name-casing
 export default { name: 'big-button' }
 </script>
 
