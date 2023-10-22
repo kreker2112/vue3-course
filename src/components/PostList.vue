@@ -27,7 +27,7 @@ export default {
 
 <style scoped>
 .container__post {
-    max-width: 600px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 15px;
 }

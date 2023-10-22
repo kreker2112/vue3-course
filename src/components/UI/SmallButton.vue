@@ -12,6 +12,8 @@ export default {
 
 <style scoped>
 .post__btn {
+    max-width: 1480px;
+    font-size: 1.5rem;
     background-color: #189ca5;
     color: #fff;
     border: none;

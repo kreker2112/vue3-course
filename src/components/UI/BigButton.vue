@@ -1,8 +1,10 @@
 <!-- eslint-disable vue/component-definition-name-casing -->
 <template>
-    <button class="button">
-        <slot></slot>
-    </button>
+    <div class="btn_container">
+        <button class="button">
+            <slot></slot>
+        </button>
+    </div>
 </template>
 
 <script>
@@ -14,9 +16,11 @@ export default { name: 'big-button' }
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 1480px;
 }
 .button {
-    width: 100%;
+    font-size: 1.5rem;
+    width: 20em;
     border: 2px solid #18aa66;
     padding: 10px 15px;
     margin: 15px 0 0 0;
