@@ -27,7 +27,6 @@ export default {
     methods: {
         createPost(post) {
             this.posts.push(post)
-            console.log(post.id)
             this.dialogVisible = false
         },
         removePost(post) {
