@@ -4,7 +4,9 @@
         <my-input v-model="post.title" type="text" placeholder="Название" />
         <my-input v-model="post.body" type="text" placeholder="Описание" />
 
-        <big-button @click="createPost">Опубликовать</big-button>
+        <div class="create-post__btn">
+            <big-button @click="createPost">Опубликовать</big-button>
+        </div>
     </form>
 </template>
 
@@ -46,5 +48,8 @@ export default {
     font-size: 2rem;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
         'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.create-post__btn {
+    margin-top: 15px;
 }
 </style>

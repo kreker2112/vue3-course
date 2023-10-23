@@ -1,16 +1,22 @@
 <template>
     <div class="app">
         <h1 class="header__1">Страница с постами</h1>
-        <div class="btn_fetch">
-            <small-button @click="fetchPosts">Получить посты</small-button>
+        <div class="app__btns">
+            <div class="btn_container">
+                <big-button @click="ShowDialog">Создать пост</big-button>
+                <my-select v-model="selectedSort" :options="sortOptions" />
+            </div>
         </div>
 
-        <big-button @click="ShowDialog">Создать пост</big-button>
         <my-dialog v-model:show="dialogVisible">
             <PostForm @create="createPost"
         /></my-dialog>
 
-        <PostList :posts="posts" @remove="removePost" />
+        <PostList v-if="!isPostLoading" :posts="posts" @remove="removePost" />
+        <div v-else class="header__loading-container">
+            <h1 class="header__loading">Идет загрузка...</h1>
+            <div class="loader"><div class="posts__loader"></div></div>
+        </div>
     </div>
 </template>
 
@@ -18,7 +24,6 @@
 import PostForm from '@/components/PostForm'
 import PostList from '@/components/PostList'
 import axios from 'axios'
-axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com/posts'
 export default {
     components: {
         PostForm,
@@ -28,10 +33,17 @@ export default {
         return {
             posts: [],
             dialogVisible: false,
+            isPostLoading: false,
+            selectedSort: '',
+            sortOptions: [
+                { value: 'title', name: 'По названию' },
+                { value: 'body', name: 'По содержимому' },
+                { value: 'id', name: 'По id' },
+            ],
         }
     },
     mounted() {
-        this.fetchPosts()
+        this.fetchJsonplaceholderPosts()
     },
     methods: {
         createPost(post) {
@@ -44,20 +56,25 @@ export default {
         ShowDialog() {
             this.dialogVisible = true
         },
-        async fetchPosts() {
+        async fetchJsonplaceholderPosts() {
+            axios.defaults.baseURL =
+                'https://jsonplaceholder.typicode.com/posts'
             const fetchSettings = {
-                mainSetting: '_limit',
+                limitSetting: '_limit',
                 postsPerLimit: '10',
             }
             try {
-                setTimeout(async () => {
-                    const response = await axios.get(
-                        `?${fetchSettings.mainSetting}=${fetchSettings.postsPerLimit}`,
-                    )
-                    this.posts = response.data
-                }, 1000)
+                this.isPostLoading = true
+
+                const response = await axios.get(
+                    `?${fetchSettings.limitSetting}=${fetchSettings.postsPerLimit}`,
+                )
+                this.posts = response.data
+                this.isPostLoading = false
             } catch (e) {
                 alert(e)
+            } finally {
+                this.isPostLoading = false
             }
         },
     },
@@ -82,9 +99,62 @@ export default {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
         'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+.btn_container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    margin: 0 auto;
+
+    padding: 15px;
+}
+
+.header__loading {
+    margin: 15px 0 0 0;
+    text-align: center;
+    font-size: 2rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.header__loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 15px 0 0 0;
+}
+
+.loader {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0 0 0;
+}
+.posts__loader {
+    border-top: 16px solid blue;
+    border-right: 16px solid green;
+    border-bottom: 16px solid red;
+    border-left: 16px solid pink;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
 .btn_fetch {
     display: flex;
     justify-content: center;
     margin: 15px 0;
+}
+.app__btns {
+    margin: auto;
+    max-width: 400px;
+    display: flex;
+    justify-content: space-between;
 }
 </style>
