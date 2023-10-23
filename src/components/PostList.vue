@@ -1,12 +1,13 @@
 <template>
     <div v-if="posts.length > 0" class="container__post">
         <h3>Список постов:</h3>
-        <post-item
-            v-for="post in posts"
-            :key="post.id"
-            :post="post"
-            @remove="$emit('remove', post)"
-        />
+        <transition-group name="post-list">
+            <post-item
+                v-for="post in posts"
+                :key="post.id"
+                :post="post"
+                @remove="$emit('remove', post)"
+        /></transition-group>
     </div>
     <h2 v-else class="no_posts">Постов нет</h2>
 </template>
@@ -48,5 +49,21 @@ export default {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
         'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: #ff0000;
+}
+.post-list-item {
+    display: inline-block;
+    margin-right: 10px;
+}
+.post-list-enter-active,
+.post-list-leave-active {
+    transition: all 0.4s ease;
+}
+.post-list-enter-from,
+.post-list-leave-to {
+    opacity: 0;
+    transform: translateX(130px);
+}
+.post-list-move {
+    transition: transform 0.4s ease;
 }
 </style>

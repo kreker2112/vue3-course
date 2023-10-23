@@ -12,7 +12,11 @@
             <PostForm @create="createPost"
         /></my-dialog>
 
-        <PostList v-if="!isPostLoading" :posts="posts" @remove="removePost" />
+        <PostList
+            v-if="!isPostLoading"
+            :posts="sortedPosts"
+            @remove="removePost"
+        />
         <div v-else class="header__loading-container">
             <h1 class="header__loading">Идет загрузка...</h1>
             <div class="loader"><div class="posts__loader"></div></div>
@@ -38,10 +42,25 @@ export default {
             sortOptions: [
                 { value: 'title', name: 'По названию' },
                 { value: 'body', name: 'По содержимому' },
-                { value: 'id', name: 'По id' },
             ],
         }
     },
+    computed: {
+        sortedPosts() {
+            return [...this.posts].sort((post1, post2) => {
+                return post1[this.selectedSort]?.localeCompare(
+                    post2[this.selectedSort],
+                )
+            })
+        },
+    },
+    // watch: {
+    //     selectedSort(newValue) {
+    //         this.posts.sort((post1, post2) => {
+    //             return post1[newValue]?.localeCompare(post2[newValue])
+    //         })
+    //     },
+    // },
     mounted() {
         this.fetchJsonplaceholderPosts()
     },

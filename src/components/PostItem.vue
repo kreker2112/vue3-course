@@ -54,4 +54,8 @@ export default {
     padding: 15px;
     border-radius: 10px;
 }
+
+.post__id {
+    /* display: none; */
+}
 </style>
