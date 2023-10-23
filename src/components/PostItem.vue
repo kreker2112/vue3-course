@@ -55,7 +55,7 @@ export default {
     border-radius: 10px;
 }
 
-.post__id {
-    /* display: none; */
-}
+/* .post__id {
+    display: none;
+} */
 </style>

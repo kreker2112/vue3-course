@@ -1,6 +1,14 @@
 <template>
     <div class="app">
         <h1 class="header__1">Страница с постами</h1>
+        <div class="container-search__input">
+            <my-input
+                v-model="searchQuery"
+                class="search__input"
+                placeholder="Поиск..."
+            />
+        </div>
+
         <div class="app__btns">
             <div class="btn_container">
                 <big-button @click="ShowDialog">Создать пост</big-button>
@@ -14,7 +22,7 @@
 
         <PostList
             v-if="!isPostLoading"
-            :posts="sortedPosts"
+            :posts="sortedAndSearchedPosts"
             @remove="removePost"
         />
         <div v-else class="header__loading-container">
@@ -39,6 +47,7 @@ export default {
             dialogVisible: false,
             isPostLoading: false,
             selectedSort: '',
+            searchQuery: '',
             sortOptions: [
                 { value: 'title', name: 'По названию' },
                 { value: 'body', name: 'По содержимому' },
@@ -52,6 +61,13 @@ export default {
                     post2[this.selectedSort],
                 )
             })
+        },
+        sortedAndSearchedPosts() {
+            return this.sortedPosts.filter((post) =>
+                post.title
+                    .toLowerCase()
+                    .includes(this.searchQuery.toLowerCase()),
+            )
         },
     },
     // watch: {
@@ -117,6 +133,17 @@ export default {
     font-size: 2rem;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
         'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.container-search__input {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+.search__input {
+    margin: auto;
+    font-size: 1rem !important;
+    width: 20rem !important;
 }
 .btn_container {
     display: flex;
