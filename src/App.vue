@@ -29,6 +29,14 @@
             <h1 class="header__loading">Идет загрузка...</h1>
             <div class="loader"><div class="posts__loader"></div></div>
         </div>
+        <div ref="observer" class="observer"></div>
+        <!-- Постраницчный вывод: -->
+        <!-- <pages-wrapper
+            :page="page"
+            :limit="limit"
+            :total-pages="totalPages"
+            @change-page="changePage"
+        /> -->
     </div>
 </template>
 
@@ -48,7 +56,11 @@ export default {
             isPostLoading: false,
             selectedSort: '',
             searchQuery: '',
+            page: 1,
+            limit: 10,
+            totalPages: 0,
             sortOptions: [
+                { value: 'id', name: 'По ID' },
                 { value: 'title', name: 'По названию' },
                 { value: 'body', name: 'По содержимому' },
             ],
@@ -70,15 +82,26 @@ export default {
             )
         },
     },
-    // watch: {
-    //     selectedSort(newValue) {
-    //         this.posts.sort((post1, post2) => {
-    //             return post1[newValue]?.localeCompare(post2[newValue])
-    //         })
-    //     },
-    // },
+    watch: {
+        // page() {
+        //     this.fetchJsonplaceholderPosts()
+        // },
+    },
     mounted() {
         this.fetchJsonplaceholderPosts()
+
+        const options = {
+            rootMargin: '0px',
+            threshold: 1.0,
+        }
+        const callback = (entries) => {
+            if (entries[0].isIntersecting && this.page < this.totalPages) {
+                this.page += 1
+                this.loadMorePosts()
+            }
+        }
+        const observer = new IntersectionObserver(callback, options)
+        observer.observe(this.$refs.observer)
     },
     methods: {
         createPost(post) {
@@ -91,25 +114,51 @@ export default {
         ShowDialog() {
             this.dialogVisible = true
         },
+        // changePage(pageNumber) {
+        //     this.page = pageNumber
+        // },
         async fetchJsonplaceholderPosts() {
-            axios.defaults.baseURL =
-                'https://jsonplaceholder.typicode.com/posts'
-            const fetchSettings = {
-                limitSetting: '_limit',
-                postsPerLimit: '10',
-            }
             try {
                 this.isPostLoading = true
 
                 const response = await axios.get(
-                    `?${fetchSettings.limitSetting}=${fetchSettings.postsPerLimit}`,
+                    'https://jsonplaceholder.typicode.com/posts',
+                    {
+                        params: {
+                            _page: this.page,
+                            _limit: this.limit,
+                        },
+                    },
+                )
+
+                this.totalPages = Math.ceil(
+                    response.headers['x-total-count'] / this.limit,
                 )
                 this.posts = response.data
-                this.isPostLoading = false
             } catch (e) {
                 alert(e)
             } finally {
                 this.isPostLoading = false
+            }
+        },
+        async loadMorePosts() {
+            try {
+                const response = await axios.get(
+                    'https://jsonplaceholder.typicode.com/posts',
+                    {
+                        params: {
+                            _page: this.page,
+                            _limit: this.limit,
+                        },
+                    },
+                )
+
+                this.totalPages = Math.ceil(
+                    response.headers['x-total-count'] / this.limit,
+                )
+                this.posts = [...this.posts, ...response.data]
+            } catch (e) {
+                alert(e)
             }
         },
     },
@@ -203,4 +252,8 @@ export default {
     display: flex;
     justify-content: space-between;
 }
+/* .observer {
+    height: 30px;
+    background-color: #2781d49f;
+} */
 </style>

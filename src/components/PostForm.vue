@@ -17,6 +17,7 @@ export default {
     data() {
         return {
             post: {
+                id: '',
                 title: '',
                 body: '',
             },
@@ -28,6 +29,7 @@ export default {
             this.post.id = uuidv4()
             this.$emit('create', this.post)
             this.post = {
+                id: '',
                 title: '',
                 body: '',
             }
