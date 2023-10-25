@@ -1,11 +1,5 @@
 <template>
-    <input
-        :value="modelValue"
-        class="input"
-        type="text"
-        @input="updateInput"
-        size="text"
-    />
+    <input :value="modelValue" class="input" type="text" @input="updateInput" />
 </template>
 
 <script>
@@ -35,5 +29,6 @@ export default {
     padding: 10px 15px;
     margin: 15px 0 0 0;
     border-radius: 10px;
+    size: 30;
 }
 </style>
