@@ -10,6 +10,9 @@
             </div>
         </div>
         <div class="post__btns--container">
+            <small-button @click="$router.push(`/posts/${post.id}`)"
+                >Открыть</small-button
+            >
             <small-button @click="$emit('remove', post)">Удалить</small-button>
         </div>
     </div>

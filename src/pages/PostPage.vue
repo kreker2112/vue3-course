@@ -4,6 +4,7 @@
         <div class="container-search__input">
             <my-input
                 v-model="searchQuery"
+                v-focus
                 class="search__input"
                 placeholder="Поиск..."
             />
@@ -29,8 +30,8 @@
             <h1 class="header__loading">Идет загрузка...</h1>
             <div class="loader"><div class="posts__loader"></div></div>
         </div>
-        <div ref="observer" class="observer"></div>
-        <!-- Постраницчный вывод: -->
+        <div v-intersection="loadMorePosts" class="observer"></div>
+        <!-- Постраничный вывод: -->
         <!-- <pages-wrapper
             :page="page"
             :limit="limit"
@@ -91,18 +92,18 @@ export default {
     mounted() {
         this.fetchJsonplaceholderPosts()
 
-        const options = {
-            rootMargin: '0px',
-            threshold: 1.0,
-        }
-        const callback = (entries) => {
-            if (entries[0].isIntersecting && this.page < this.totalPages) {
-                this.page += 1
-                this.loadMorePosts()
-            }
-        }
-        const observer = new IntersectionObserver(callback, options)
-        observer.observe(this.$refs.observer)
+        // Бесконечная загрузка:
+        // const options = {
+        //     rootMargin: '0px',
+        //     threshold: 1.0,
+        // }
+        // const callback = (entries) => {
+        //     if (entries[0].isIntersecting && this.page < this.totalPages) {
+        //         this.loadMorePosts()
+        //     }
+        // }
+        // const observer = new IntersectionObserver(callback, options)
+        // observer.observe(this.$refs.observer)
     },
     methods: {
         createPost(post) {
@@ -144,6 +145,7 @@ export default {
         },
         async loadMorePosts() {
             try {
+                this.page += 1
                 const response = await axios.get(
                     'https://jsonplaceholder.typicode.com/posts',
                     {

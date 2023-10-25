@@ -1,18 +1,21 @@
 <template>
+    <Navbar />
     <div class="app">
-        <div class="routes__container">
-            <router-link to="/">Главная</router-link>
-            <router-link to="/pages">Посты</router-link>
-            <router-link to="/about">О нас</router-link>
-        </div>
+        <router-view />
     </div>
 </template>
 
 <script>
-export default {}
+import Navbar from '@/components/UI/NavBar.vue'
+export default {
+    name: 'App',
+    components: {
+        Navbar,
+    },
+}
 </script>
 
-<style scoped>
+<style>
 * {
     margin: 0;
     padding: 0;
@@ -22,18 +25,5 @@ export default {}
     max-width: 1480px;
     margin: 0 auto;
     padding: 15px;
-}
-.routes__container {
-    display: flex;
-    justify-content: space-between;
-    margin: 15px 0;
-}
-
-.routes__container a {
-    text-decoration: none;
-    color: #000;
-    font-size: 1.5rem;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
-        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 </style>
