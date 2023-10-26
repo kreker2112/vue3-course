@@ -59,7 +59,10 @@ export default {
     border-radius: 10px;
 }
 
-/* .post__id {
-    display: none;
-} */
+.post__id {
+    font-size: 1.5rem;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    padding-bottom: 20px;
+}
 </style>

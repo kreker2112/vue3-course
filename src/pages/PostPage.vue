@@ -31,7 +31,7 @@
             <div class="loader"><div class="posts__loader"></div></div>
         </div>
         <div v-intersection="loadMorePosts" class="observer"></div>
-        <!-- Постраничный вывод: -->
+        <!-- Постраничный вывод (пагинация): -->
         <!-- <pages-wrapper
             :page="page"
             :limit="limit"
@@ -85,11 +85,13 @@ export default {
         },
     },
     watch: {
+        // Наблюдение за изменением страницы пагинации и вызов метода fetchJsonplaceholderPosts() при каждом изменении страницы:
         // page() {
         //     this.fetchJsonplaceholderPosts()
         // },
     },
     mounted() {
+        // Загрузка постов при жизненном цикле компонента "после монтирования" (mounted):
         this.fetchJsonplaceholderPosts()
 
         // Бесконечная загрузка (отдельно выведена как директива v-intersection и передана в div с классом observer):
@@ -116,6 +118,7 @@ export default {
         ShowDialog() {
             this.dialogVisible = true
         },
+        // Смена страницы пагинации
         // changePage(pageNumber) {
         //     this.page = pageNumber
         // },

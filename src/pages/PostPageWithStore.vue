@@ -3,17 +3,22 @@
         <h1 class="header__1">Страница с постами</h1>
         <div class="container-search__input">
             <my-input
-                v-model="searchQuery"
                 v-focus
+                :model-value="searchQuery"
                 class="search__input"
                 placeholder="Поиск..."
+                @update:model-value="setSearchQuery"
             />
         </div>
 
         <div class="app__btns">
             <div class="btn_container">
                 <big-button @click="ShowDialog">Создать пост</big-button>
-                <my-select v-model="selectedSort" :options="sortOptions" />
+                <my-select
+                    :model-value="selectedSort"
+                    :options="sortOptions"
+                    @update:model-value="setSelectedSort"
+                />
             </div>
         </div>
 
@@ -31,7 +36,7 @@
             <div class="loader"><div class="posts__loader"></div></div>
         </div>
         <div v-intersection="loadMorePosts" class="observer"></div>
-        <!-- Постраничный вывод: -->
+        Постраничный вывод:
         <!-- <pages-wrapper
             :page="page"
             :limit="limit"
@@ -44,7 +49,7 @@
 <script>
 import PostForm from '@/components/PostForm'
 import PostList from '@/components/PostList'
-import axios from 'axios'
+import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
     name: 'PostPage',
     components: {
@@ -53,59 +58,40 @@ export default {
     },
     data() {
         return {
-            posts: [],
             dialogVisible: false,
-            isPostLoading: false,
-            selectedSort: '',
-            searchQuery: '',
-            page: 1,
-            limit: 10,
-            totalPages: 0,
-            sortOptions: [
-                { value: 'id', name: 'По ID' },
-                { value: 'title', name: 'По названию' },
-                { value: 'body', name: 'По содержимому' },
-            ],
         }
     },
     computed: {
-        sortedPosts() {
-            return [...this.posts].sort((post1, post2) => {
-                return post1[this.selectedSort]?.localeCompare(
-                    post2[this.selectedSort],
-                )
-            })
-        },
-        sortedAndSearchedPosts() {
-            return this.sortedPosts.filter((post) =>
-                post.title
-                    .toLowerCase()
-                    .includes(this.searchQuery.toLowerCase()),
-            )
-        },
+        ...mapState({
+            posts: (state) => state.post.posts,
+            isPostLoading: (state) => state.post.isPostLoading,
+            selectedSort: (state) => state.post.selectedSort,
+            searchQuery: (state) => state.post.searchQuery,
+            page: (state) => state.post.page,
+            limit: (state) => state.post.limit,
+            totalPages: (state) => state.post.totalPages,
+            sortOptions: (state) => state.post.sortOptions,
+        }),
+        ...mapGetters({
+            sortedPosts: 'post/sortedPosts',
+            sortedAndSearchedPosts: 'post/sortedAndSearchedPosts',
+        }),
     },
-    watch: {
-        // page() {
-        //     this.fetchJsonplaceholderPosts()
-        // },
-    },
+    watch: {},
     mounted() {
         this.fetchJsonplaceholderPosts()
-
-        // Бесконечная загрузка (отдельно выведена как директива v-intersection и передана в div с классом observer):
-        // const options = {
-        //     rootMargin: '0px',
-        //     threshold: 1.0,
-        // }
-        // const callback = (entries) => {
-        //     if (entries[0].isIntersecting && this.page < this.totalPages) {
-        //         this.loadMorePosts()
-        //     }
-        // }
-        // const observer = new IntersectionObserver(callback, options)
-        // observer.observe(this.$refs.observer)
     },
     methods: {
+        ...mapMutations({
+            setPosts: 'post/setPosts',
+            setSearchQuery: 'post/setSearchQuery',
+            setSelectedSort: 'post/setSelectedSort',
+        }),
+
+        ...mapActions({
+            loadMorePosts: 'post/loadMorePosts',
+            fetchJsonplaceholderPosts: 'post/fetchJsonplaceholderPosts',
+        }),
         createPost(post) {
             this.posts.push(post)
             this.dialogVisible = false
@@ -116,54 +102,10 @@ export default {
         ShowDialog() {
             this.dialogVisible = true
         },
+        // Смена страницы пагинации
         // changePage(pageNumber) {
         //     this.page = pageNumber
         // },
-        async fetchJsonplaceholderPosts() {
-            try {
-                this.isPostLoading = true
-
-                const response = await axios.get(
-                    'https://jsonplaceholder.typicode.com/posts',
-                    {
-                        params: {
-                            _page: this.page,
-                            _limit: this.limit,
-                        },
-                    },
-                )
-
-                this.totalPages = Math.ceil(
-                    response.headers['x-total-count'] / this.limit,
-                )
-                this.posts = response.data
-            } catch (e) {
-                alert(e)
-            } finally {
-                this.isPostLoading = false
-            }
-        },
-        async loadMorePosts() {
-            try {
-                this.page += 1
-                const response = await axios.get(
-                    'https://jsonplaceholder.typicode.com/posts',
-                    {
-                        params: {
-                            _page: this.page,
-                            _limit: this.limit,
-                        },
-                    },
-                )
-
-                this.totalPages = Math.ceil(
-                    response.headers['x-total-count'] / this.limit,
-                )
-                this.posts = [...this.posts, ...response.data]
-            } catch (e) {
-                alert(e)
-            }
-        },
     },
 }
 </script>
