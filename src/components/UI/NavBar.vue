@@ -3,8 +3,12 @@
         <div class="navbar_title" @click="$router.push('/')">Vue3</div>
         <div class="navbar__btns">
             <nav-button @click="$router.push('/posts')">Посты</nav-button>
-            <nav-button @click="$router.push('/about')">О сайте</nav-button>
+
             <nav-button @click="$router.push('/store')">Хранилище</nav-button>
+            <nav-button @click="$router.push('/composition')"
+                >CompositionAPI</nav-button
+            >
+            <nav-button @click="$router.push('/about')">О сайте</nav-button>
         </div>
     </div>
 </template>

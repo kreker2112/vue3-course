@@ -36,7 +36,7 @@
             <div class="loader"><div class="posts__loader"></div></div>
         </div>
         <div v-intersection="loadMorePosts" class="observer"></div>
-        Постраничный вывод:
+        <!-- Постраничный вывод: -->
         <!-- <pages-wrapper
             :page="page"
             :limit="limit"
@@ -51,7 +51,7 @@ import PostForm from '@/components/PostForm'
 import PostList from '@/components/PostList'
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
-    name: 'PostPage',
+    name: 'PostPageWithStore',
     components: {
         PostForm,
         PostList,
