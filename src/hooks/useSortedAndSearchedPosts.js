@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 
-export function useSortedPosts(sortedPosts) {
+export default function useSortedPosts(sortedPosts) {
     const searchQuery = ref('')
     const sortedAndSearchedPosts = computed(() => {
         return sortedPosts.value.filter((post) =>

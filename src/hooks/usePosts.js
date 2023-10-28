@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 
-export function fetchJsonplaceholderPosts(limit) {
+export default function fetchJsonplaceholderPosts(limit) {
     const posts = ref([])
+    // const page = ref(0)
     const totalPages = ref(0)
     const isPostLoading = ref(true)
     const fetching = async () => {
@@ -21,8 +22,9 @@ export function fetchJsonplaceholderPosts(limit) {
                 response.headers['x-total-count'] / limit,
             )
             posts.value = response.data
+            console.log(response.data)
         } catch (e) {
-            alert(e)
+            console.log(e)
         } finally {
             isPostLoading.value = false
         }
@@ -30,6 +32,7 @@ export function fetchJsonplaceholderPosts(limit) {
     onMounted(fetching)
     return {
         posts,
+        // page,
         totalPages,
         isPostLoading,
     }

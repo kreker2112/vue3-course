@@ -6,7 +6,7 @@ const postModule = {
         isPostLoading: false,
         selectedSort: '',
         searchQuery: '',
-        page: 1,
+        page: 0,
         limit: 10,
         totalPages: 0,
         sortOptions: [
@@ -74,6 +74,7 @@ const postModule = {
                     Math.ceil(response.headers['x-total-count'] / state.limit),
                 )
                 commit('setPosts', response.data)
+                console.log(response.data)
             } catch (e) {
                 console.log(e)
             } finally {

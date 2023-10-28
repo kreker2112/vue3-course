@@ -28,11 +28,13 @@
 </template>
 
 <script>
+// Импорт компонентов
 import PostForm from '@/components/PostForm.vue'
 import PostList from '@/components/PostList.vue'
 import BigButton from '@/components/UI/BigButton.vue'
 import MySelect from '@/components/UI/MySelect.vue'
 import MyInput from '@/components/UI/MyInput.vue'
+// Импорт хуков
 import usePosts from '@/hooks/usePosts'
 import useSortedPosts from '@/hooks/useSortedPosts'
 import useSortedAndSearchedPosts from '@/hooks/useSortedAndSearchedPosts'
