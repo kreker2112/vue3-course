@@ -5,9 +5,9 @@
             <nav-button @click="$router.push('/posts')">Посты</nav-button>
 
             <nav-button @click="$router.push('/store')">Хранилище</nav-button>
-            <!-- <nav-button @click="$router.push('/composition')"
+            <nav-button @click="$router.push('/composition')"
                 >Композиция</nav-button
-            > -->
+            >
             <nav-button @click="$router.push('/about')">О сайте</nav-button>
         </div>
     </div>

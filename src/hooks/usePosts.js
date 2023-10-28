@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 
-export default function fetchJsonplaceholderPosts(limit) {
+export function fetchJsonplaceholderPosts(limit) {
     const posts = ref([])
     const totalPages = ref(0)
     const isPostLoading = ref(true)

@@ -33,9 +33,9 @@ import PostList from '@/components/PostList.vue'
 import BigButton from '@/components/UI/BigButton.vue'
 import MySelect from '@/components/UI/MySelect.vue'
 import MyInput from '@/components/UI/MyInput.vue'
-import { usePosts } from '@/hooks/usePosts'
-import { useSortedPosts } from '@/hooks/useSortedPosts'
-import { useSortedAndSearchedPosts } from '@/hooks/useSortedAndSearchedPosts'
+import usePosts from '@/hooks/usePosts'
+import useSortedPosts from '@/hooks/useSortedPosts'
+import useSortedAndSearchedPosts from '@/hooks/useSortedAndSearchedPosts'
 export default {
     name: 'PostPageCompositionApi',
     components: {
