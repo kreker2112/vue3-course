@@ -1,7 +1,5 @@
 <template>
     <div>
-        <h1 class="likes__container">Likes: {{ likes }}</h1>
-        <button class="like_btn" @click="addLike">Add Like</button>
         <h1 class="header__1">Страница с постами</h1>
         <div class="container-search__input">
             <my-input
@@ -26,23 +24,29 @@
             <h1 class="header__loading">Идет загрузка...</h1>
             <div class="loader"><div class="posts__loader"></div></div>
         </div>
-        <div v-intersection="loadMorePosts" class="observer"></div>
     </div>
 </template>
 
 <script>
-import { fetchJsonplaceholderPosts } from '@/hooks/usePosts'
+import PostForm from '@/components/PostForm.vue'
+import PostList from '@/components/PostList.vue'
+import BigButton from '@/components/UI/BigButton.vue'
+import MySelect from '@/components/UI/MySelect.vue'
+import MyInput from '@/components/UI/MyInput.vue'
+import { usePosts } from '@/hooks/usePosts'
 import { useSortedPosts } from '@/hooks/useSortedPosts'
 import { useSortedAndSearchedPosts } from '@/hooks/useSortedAndSearchedPosts'
 export default {
     name: 'PostPageCompositionApi',
     components: {
-        // PostForm,
-        // PostList,
+        PostForm,
+        PostList,
+        BigButton,
+        MySelect,
+        MyInput,
     },
     setup() {
-        const { posts, totalPages, isPostLoading } =
-            fetchJsonplaceholderPosts(10)
+        const { posts, totalPages, isPostLoading } = usePosts(10)
         const { selectedSort, sortedPosts } = useSortedPosts(posts)
         const { searchQuery, sortedAndSearchedPosts } =
             useSortedAndSearchedPosts(sortedPosts)

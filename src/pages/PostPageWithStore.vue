@@ -28,16 +28,17 @@
 
         <PostList
             v-if="!isPostLoading"
+            :model-value="posts"
             :posts="sortedAndSearchedPosts"
-            @remove="removePost"
+            @remove="deletePost"
         />
         <div v-else class="header__loading-container">
             <h1 class="header__loading">Идет загрузка...</h1>
             <div class="loader"><div class="posts__loader"></div></div>
         </div>
         <div v-intersection="loadMorePosts" class="observer"></div>
-        <!-- Постраничный вывод: -->
-        <!-- <pages-wrapper
+        <!-- Постраничный вывод:
+        <pages-wrapper
             :page="page"
             :limit="limit"
             :total-pages="totalPages"
@@ -86,6 +87,7 @@ export default {
             setPosts: 'post/setPosts',
             setSearchQuery: 'post/setSearchQuery',
             setSelectedSort: 'post/setSelectedSort',
+            deletePost: 'post/deletePost',
         }),
 
         ...mapActions({
@@ -95,9 +97,6 @@ export default {
         createPost(post) {
             this.posts.push(post)
             this.dialogVisible = false
-        },
-        removePost(post) {
-            this.posts = this.posts.filter((item) => item.id !== post.id)
         },
         ShowDialog() {
             this.dialogVisible = true

@@ -50,6 +50,9 @@ const postModule = {
         setSearchQuery(state, searchQuery) {
             state.searchQuery = searchQuery
         },
+        deletePost(state, postId) {
+            state.posts = state.posts.filter((post) => post.id !== postId.id)
+        },
     },
     actions: {
         async fetchJsonplaceholderPosts({ state, commit }) {
