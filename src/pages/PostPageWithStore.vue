@@ -80,10 +80,12 @@ export default {
     },
     watch: {},
     mounted() {
+        this.setPage(0)
         this.fetchJsonplaceholderPosts()
     },
     methods: {
         ...mapMutations({
+            setPage: 'post/setPage',
             setPosts: 'post/setPosts',
             setSearchQuery: 'post/setSearchQuery',
             setSelectedSort: 'post/setSelectedSort',

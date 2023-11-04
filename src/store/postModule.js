@@ -74,7 +74,6 @@ const postModule = {
                     Math.ceil(response.headers['x-total-count'] / state.limit),
                 )
                 commit('setPosts', response.data)
-                console.log(response.data)
             } catch (e) {
                 console.log(e)
             } finally {
@@ -104,6 +103,7 @@ const postModule = {
             }
         },
     },
+
     namespaced: true,
 }
 
